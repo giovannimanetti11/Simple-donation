@@ -1,6 +1,6 @@
 {
   "name": "simple-donation",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A simple donation module for Nuxt 3 projects",
   "main": "module.ts",
   "types": "module.ts",
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "defu": "^6.0.0",
-    "dompurify": "^2.4.0" 
+    "dompurify": "^2.4.0"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.0.0",
