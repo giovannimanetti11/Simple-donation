@@ -1,0 +1,39 @@
+{
+  "name": "simple-donation",
+  "version": "1.0.0",
+  "description": "A simple donation module for Nuxt 3 projects",
+  "main": "module.ts",
+  "types": "module.ts",
+  "files": [
+    "module.ts",
+    "runtime"
+  ],
+  "scripts": {
+    "dev": "nuxt dev playground",
+    "build": "nuxt build playground",
+    "generate": "nuxt generate playground",
+    "lint": "eslint --ext .js,.ts,.vue runtime/**/*.ts runtime/**/*.vue module.ts"
+  },
+  "keywords": [
+    "nuxt",
+    "donation",
+    "paypal",
+    "module"
+  ],
+  "author": "Giovanni Manetti",
+  "license": "MIT",
+  "dependencies": {
+    "defu": "^6.0.0",
+    "dompurify": "^2.4.0" 
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.0.0",
+    "nuxt": "^3.0.0",
+    "typescript": "^4.5.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^7.20.0"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.0.0"
+  }
+}
