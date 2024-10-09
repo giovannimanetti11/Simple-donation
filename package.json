@@ -22,6 +22,11 @@
   ],
   "author": "Giovanni Manetti",
   "license": "MIT",
+  "homepage": "https://github.com/giovannimanetti11/Simple-donation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giovannimanetti11/Simple-donation.git"
+  },
   "dependencies": {
     "defu": "^6.0.0",
     "dompurify": "^2.4.0" 
