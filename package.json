@@ -1,6 +1,6 @@
 {
   "name": "simple-donation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple donation module for Nuxt 3 projects",
   "main": "module.ts",
   "types": "module.ts",
