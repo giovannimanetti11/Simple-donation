@@ -1,4 +1,4 @@
-# Simple Donation Module for Nuxt 3
+# Simple donation module for Nuxt 3
 
 This module provides a straightforward donation component for Nuxt 3 projects, integrating PayPal for one-time donations in EUR.
 
