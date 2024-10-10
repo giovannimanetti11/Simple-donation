@@ -72,7 +72,6 @@ export default defineNuxtConfig({
 
 - Run `npm run dev` to start the playground in development mode.
 - Run `npm run build` to build the playground.
-- Run `npm run lint` to run ESLint.
 
 ## Contributing
 
