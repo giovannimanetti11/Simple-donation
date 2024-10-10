@@ -68,6 +68,40 @@ export default defineNuxtConfig({
 })
 ```
 
+## Customization
+
+### FAQ Customization
+
+You can customize the FAQs displayed in the donation component's sidebar by passing a faqs prop to the SimpleDonation component. Here's an example of how to do this in a Vue component:
+
+```vue
+<template>
+  <div>
+    <h1>Support Our Project</h1>
+    <SimpleDonation :faqs="customFaqs" />
+  </div>
+</template>
+
+<script setup>
+const customFaqs = [
+  {
+    question: 'How are donations used?',
+    answer: 'Donations are used to support the development and maintenance of our project.'
+  },
+  {
+    question: 'Is this system secure?',
+    answer: 'Yes, all transactions use systems with high levels of security.',
+  },
+  {
+    question: 'Can I make a recurring donation?',
+    answer: 'Currently, we only support one-time donations, but we are working on implementing recurring donations in the future.',
+  }
+]
+</script>
+```
+
+Each FAQ item should be an object with question and answer properties. The component will automatically render these custom FAQs instead of the default ones.
+
 ## Development
 
 - Run `npm run dev` to start the playground in development mode.
