@@ -27,7 +27,7 @@
         </div>
 
         <!-- Step content -->
-        <!-- Step 1 -->
+        <!-- Step 1: Amount selection -->
         <div v-if="currentStep === 1" class="transition-all duration-500 ease-in-out">
           <h2 class="text-2xl font-bold mb-4">{{ steps[0] }}</h2>
           <!-- Donation amount selection -->
@@ -53,7 +53,7 @@
               >
             </div>
           </div>
-          <!-- Buttons -->
+          <!-- Next button -->
           <div class="flex justify-end items-end mt-4">
             <button 
               @click="nextStep" 
@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <!-- Step 2 -->
+        <!-- Step 2: Profile information -->
         <div v-if="currentStep === 2" class="transition-all duration-500 ease-in-out">
           <h2 class="text-2xl font-bold mb-4">{{ steps[1] }}</h2>
           <!-- Profile information form -->
@@ -88,7 +88,7 @@
                 class="w-full px-4 py-3 border rounded-md transition-colors duration-300 focus:ring-2 focus:ring-blu focus:border-transparent"
               >
             </div>
-            <!-- Buttons -->
+            <!-- Navigation buttons -->
             <div class="flex justify-end items-end mt-4 space-x-4">
               <button 
                 @click="prevStep" 
@@ -107,12 +107,12 @@
           </form>
         </div>
 
-        <!-- Step 3 -->
+        <!-- Step 3: Payment -->
         <div v-if="currentStep === 3" class="transition-all duration-500 ease-in-out">
           <h2 class="text-2xl font-bold mb-4">{{ steps[2] }}</h2>
           <!-- PayPal Button Container -->
           <div id="paypal-button-container" class="mt-4"></div>
-          <!-- Buttons -->
+          <!-- Back button -->
           <div class="flex justify-start items-center mt-4 space-x-4">
             <button 
               @click="prevStep" 
@@ -126,38 +126,25 @@
 
       <!-- Sidebar -->
       <div class="md:w-1/3 bg-slate-100 p-8">
-        <h3 class="text-xl font-bold mb-4">Donation Summary</h3>
+        <h3 class="text-xl font-bold mb-4">Donation summary</h3>
         <p>Amount: €{{ donationAmount }}</p>
         <hr class="my-4">
         <h3 class="text-xl font-bold mb-4">FAQ</h3>
-        <div v-for="(faq, index) in sanitizedFaqs" :key="index" class="mb-4">
+        <div v-for="(faq, index) in sanitizedFaqs" :key="index" class="border-b border-slate-200">
           <button 
             @click="toggleFaq(index)" 
-            class="w-full text-left font-bold py-3 px-4 rounded-lg bg-white shadow-sm hover:bg-gray-50 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blu relative pr-10"
+            class="w-full flex justify-between items-center py-5 text-slate-800 hover:bg-slate-50 transition-colors duration-300"
           >
-            <span v-html="faq.question"></span>
-            <span 
-              class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-transform duration-300" 
-              :class="{ 'rotate-180': activeFaq === index }"
-            >
-              <!-- Updated arrow icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+            <span v-html="faq.question" class="text-left font-medium py-2"></span>
+            <span :id="`icon-${index}`" class="text-zinc-400 flex-shrink-0 ml-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </span>
           </button>
-          <transition
-            enter-active-class="transition-all duration-500 ease-out"
-            leave-active-class="transition-all duration-300 ease-in"
-            enter-from-class="opacity-0 max-h-0"
-            enter-to-class="opacity-100 max-h-[1000px]"
-            leave-from-class="opacity-100 max-h-[1000px]"
-            leave-to-class="opacity-0 max-h-0"
-          >
-            <div v-show="activeFaq === index" class="mt-2 p-4 bg-white rounded-lg shadow-inner overflow-hidden">
-              <p v-html="faq.answer" class="text-gray-700"></p>
-            </div>
-          </transition>
+          <div :id="`content-${index}`" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="p-3 text-sm text-slate-600" v-html="faq.answer"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -235,9 +222,51 @@ const goToStep = (step) => {
 }
 
 const toggleFaq = (index) => {
-  activeFaq.value = activeFaq.value === index ? null : index
+  const content = document.getElementById(`content-${index}`);
+  const icon = document.getElementById(`icon-${index}`);
+
+  // SVG for Minus icon
+  const minusSVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+    </svg>
+  `;
+
+  // SVG for Plus icon
+  const plusSVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+    </svg>
+  `;
+
+  // Toggle the content's max-height for smooth opening and closing
+  if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+    content.style.maxHeight = '0';
+    icon.innerHTML = plusSVG;
+  } else {
+    content.style.maxHeight = content.scrollHeight + 'px';
+    icon.innerHTML = minusSVG;
+  }
+
+  activeFaq.value = activeFaq.value === index ? null : index;
 }
 
+// Lifecycle hooks
+onMounted(() => {
+  // Accordions closed by default
+  sanitizedFaqs.value.forEach((_, index) => {
+    const content = document.getElementById(`content-${index}`);
+    if (content) {
+      content.style.maxHeight = '0';
+    }
+  });
+
+  if (currentStep.value === 3) {
+    initializePayPal()
+  }
+})
+
+// Initialize PayPal
 const initializePayPal = async () => {
   try {
     await initPaypal()
@@ -286,5 +315,15 @@ watch(donationAmount, () => {
 .rounded-full {
   min-width: 2.5rem;
   min-height: 2.5rem;
+}
+
+button:focus,
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.border-blu {
+  border-color: #3B82F6;
 }
 </style>
