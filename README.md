@@ -32,7 +32,8 @@ export default defineNuxtConfig({
       colors: {
         primary: '#3B82F6',   // Default blue color
         secondary: '#1E40AF', // Darker blue
-        accent: '#60A5FA'     // Lighter blue
+        accent: '#60A5FA',    // Lighter blue
+        background: '#FFFFFF' // White background
       }
     }]
   ]
@@ -72,7 +73,8 @@ export default defineNuxtConfig({
       colors: {
         primary: '#3B82F6',   // Custom primary color
         secondary: '#1E40AF', // Custom secondary color
-        accent: '#60A5FA'     // Custom accent color
+        accent: '#60A5FA',    // Custom accent color
+        background: '#FFFFFF' // Custom background color
       }
     }]
   ]
@@ -88,6 +90,7 @@ You can customize the color scheme of the donation component by modifying the `c
 - `primary`: the main color used for buttons and highlights
 - `secondary`: used for secondary elements and hover states
 - `accent`: used for accents and focus states
+- `background`: the background color of the donation component
 
 ### FAQ Customization
 

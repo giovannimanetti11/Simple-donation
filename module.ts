@@ -1,5 +1,3 @@
-// module.ts
-
 import { defineNuxtModule, addComponent, createResolver, logger } from '@nuxt/kit'
 import { defu } from 'defu'
 
@@ -10,7 +8,8 @@ export interface ModuleOptions {
   colors: {
     primary: string,
     secondary: string,
-    accent: string
+    accent: string,
+    background: string
   }
 }
 
@@ -29,7 +28,8 @@ export default defineNuxtModule<ModuleOptions>({
     colors: {
       primary: '#3B82F6',   // Default blue color
       secondary: '#1E40AF', // Darker blue
-      accent: '#60A5FA'     // Lighter blue
+      accent: '#60A5FA',    // Lighter blue
+      background: '#FFFFFF' // White background
     }
   },
   setup(moduleOptions, nuxt) {
@@ -80,7 +80,8 @@ export default defineNuxtModule<ModuleOptions>({
         ...tailwindConfig.theme.extend.colors,
         primary: options.colors.primary,
         secondary: options.colors.secondary,
-        accent: options.colors.accent
+        accent: options.colors.accent,
+        background: options.colors.background
       }
     })
 
