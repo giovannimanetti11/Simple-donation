@@ -1,6 +1,17 @@
 # Simple donation module for Nuxt 3
 
+[![Last Commit](https://img.shields.io/github/last-commit/giovannimanetti11/Simple-donation)](https://github.com/giovannimanetti11/Simple-donation/commits/main)
+[![License](https://img.shields.io/github/license/giovannimanetti11/Simple-donation)](https://github.com/giovannimanetti11/Simple-donation/blob/main/LICENSE)
+[![Language](https://img.shields.io/github/languages/top/giovannimanetti11/Simple-donation)](https://github.com/giovannimanetti11/Simple-donation)
+[![npm version](https://img.shields.io/npm/v/simple-donation)](https://www.npmjs.com/package/simple-donation)
+[![npm downloads](https://img.shields.io/npm/dm/simple-donation)](https://www.npmjs.com/package/simple-donation)
+
 This module provides a customizable donation component for Nuxt 3 projects, integrating PayPal for one-time donations in EUR.
+
+## Live Demo
+
+You can see this module in action and test it live at:
+[https://wikiherbalist.com/donazioni](https://wikiherbalist.com/donazioni)
 
 ## Features
 
@@ -8,7 +19,7 @@ This module provides a customizable donation component for Nuxt 3 projects, inte
 - PayPal integration for secure payments
 - Customizable donation amounts
 - Responsive design using Tailwind CSS
-- Customizable color scheme
+- Customizable color scheme including background color
 
 ## Installation
 
