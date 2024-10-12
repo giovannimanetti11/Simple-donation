@@ -8,7 +8,7 @@
 
 This module provides a customizable donation component for Nuxt 3 projects, integrating PayPal for one-time donations in EUR.
 
-## Live Demo
+## Live demo
 
 You can see this module in action and test it live at:
 [https://wikiherbalist.com/donazioni](https://wikiherbalist.com/donazioni)
@@ -19,7 +19,7 @@ You can see this module in action and test it live at:
 - PayPal integration for secure payments
 - Customizable donation amounts
 - Responsive design using Tailwind CSS
-- Customizable color scheme including background color
+- Customizable basic color scheme
 
 ## Installation
 
@@ -94,7 +94,7 @@ export default defineNuxtConfig({
 
 ## Customization
 
-### Color Customization
+### Color customization
 
 You can customize the color scheme of the donation component by modifying the `colors` object in the module configuration. The available color options are:
 
@@ -103,7 +103,7 @@ You can customize the color scheme of the donation component by modifying the `c
 - `accent`: used for accents and focus states
 - `background`: the background color of the donation component
 
-### FAQ Customization
+### FAQ customization
 
 You can customize the FAQs displayed in the donation component's sidebar by passing a faqs prop to the SimpleDonation component. Here's an example of how to do this in a Vue component:
 
