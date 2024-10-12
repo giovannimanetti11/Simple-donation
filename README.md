@@ -1,6 +1,6 @@
 # Simple donation module for Nuxt 3
 
-This module provides a straightforward donation component for Nuxt 3 projects, integrating PayPal for one-time donations in EUR.
+This module provides a customizable donation component for Nuxt 3 projects, integrating PayPal for one-time donations in EUR.
 
 ## Features
 
@@ -8,6 +8,7 @@ This module provides a straightforward donation component for Nuxt 3 projects, i
 - PayPal integration for secure payments
 - Customizable donation amounts
 - Responsive design using Tailwind CSS
+- Customizable color scheme
 
 ## Installation
 
@@ -27,6 +28,11 @@ export default defineNuxtConfig({
     ['simple-donation', {
       paypal: {
         clientId: process.env.PAYPAL_CLIENT_ID
+      },
+      colors: {
+        primary: '#3B82F6',   // Default blue color
+        secondary: '#1E40AF', // Darker blue
+        accent: '#60A5FA'     // Lighter blue
       }
     }]
   ]
@@ -54,7 +60,7 @@ After installation and configuration, you can use the `SimpleDonation` component
 
 ## Configuration
 
-The module is configured directly in your `nuxt.config.ts`. Currently, the only required configuration is the PayPal client ID:
+The module is configured directly in your `nuxt.config.ts`. You can customize the PayPal client ID and the color scheme:
 
 ```typescript
 export default defineNuxtConfig({
@@ -62,6 +68,11 @@ export default defineNuxtConfig({
     ['simple-donation', {
       paypal: {
         clientId: process.env.PAYPAL_CLIENT_ID
+      },
+      colors: {
+        primary: '#3B82F6',   // Custom primary color
+        secondary: '#1E40AF', // Custom secondary color
+        accent: '#60A5FA'     // Custom accent color
       }
     }]
   ]
@@ -69,6 +80,14 @@ export default defineNuxtConfig({
 ```
 
 ## Customization
+
+### Color Customization
+
+You can customize the color scheme of the donation component by modifying the `colors` object in the module configuration. The available color options are:
+
+- `primary`: the main color used for buttons and highlights
+- `secondary`: used for secondary elements and hover states
+- `accent`: used for accents and focus states
 
 ### FAQ Customization
 

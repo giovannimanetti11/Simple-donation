@@ -1,9 +1,16 @@
+// module.ts
+
 import { defineNuxtModule, addComponent, createResolver, logger } from '@nuxt/kit'
 import { defu } from 'defu'
 
 export interface ModuleOptions {
   paypal: {
     clientId: string
+  },
+  colors: {
+    primary: string,
+    secondary: string,
+    accent: string
   }
 }
 
@@ -18,6 +25,11 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     paypal: {
       clientId: ''
+    },
+    colors: {
+      primary: '#3B82F6',   // Default blue color
+      secondary: '#1E40AF', // Darker blue
+      accent: '#60A5FA'     // Lighter blue
     }
   },
   setup(moduleOptions, nuxt) {
@@ -61,6 +73,16 @@ export default defineNuxtModule<ModuleOptions>({
       logger.error('Failed to add composables directory:', error)
       throw new Error('Composables directory registration failed.')
     }
+
+    // Add Tailwind configuration
+    nuxt.hook('tailwindcss:config', (tailwindConfig) => {
+      tailwindConfig.theme.extend.colors = {
+        ...tailwindConfig.theme.extend.colors,
+        primary: options.colors.primary,
+        secondary: options.colors.secondary,
+        accent: options.colors.accent
+      }
+    })
 
     // Debugging: Log the final options if in development mode
     if (nuxt.options.dev) {

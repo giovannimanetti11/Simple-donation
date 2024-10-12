@@ -82,18 +82,28 @@ export function usePaypal() {
           })
         },
         onApprove: async (data: any, actions: any) => {
+          console.log('Payment approved. Capturing order...')
           try {
             const details = await actions.order.capture()
             console.log('Transaction completed:', details)
             onSuccess(details)
-          } catch (error) {
+          } catch (error: any) {
             console.error('Error capturing order:', error)
-            onError(error)
+            if (error.details && error.details[0].issue === 'TRANSACTION_REFUSED') {
+              console.error('Transaction refused. Please check your sandbox account configuration.')
+              onError(new Error('Transaction refused. Please check your sandbox account configuration.'))
+            } else {
+              onError(error)
+            }
           }
         },
         onError: (err: any) => {
           console.error('PayPal error:', err)
-          onError(err)
+          if (err.message.includes('TRANSACTION_REFUSED')) {
+            onError(new Error('Transaction refused. Please check your sandbox account configuration.'))
+          } else {
+            onError(err)
+          }
         }
       }).render('#paypal-button-container')
     } catch (error) {
