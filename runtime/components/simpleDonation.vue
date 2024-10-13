@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+  <div class="max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden simple-donation">
     <div class="md:flex">
       <!-- Main content -->
       <div class="md:w-2/3 p-8">
@@ -10,14 +10,14 @@
               @click="goToStep(index + 1)" 
               :class="[
                 'rounded-full w-10 h-10 flex items-center justify-center mr-2 transition-colors duration-300',
-                currentStep > index ? 'bg-blu text-white' : 'bg-gray-200 text-gray-600 hover:bg-celeste hover:text-white'
+                currentStep > index ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-accent hover:text-white'
               ]"
             >
               <span class="text-center">{{ index + 1 }}</span>
             </button>
             <span 
               @click="goToStep(index + 1)" 
-              class="cursor-pointer hover:text-blu transition-colors duration-300"
+              class="cursor-pointer hover:text-primary transition-colors duration-300"
               :class="{ 'font-bold': currentStep === index + 1 }"
             >
               {{ step }}
@@ -29,7 +29,7 @@
         <!-- Step content -->
         <!-- Step 1: Amount selection -->
         <div v-if="currentStep === 1" class="transition-all duration-500 ease-in-out">
-          <h2 class="text-2xl font-bold mb-4">{{ steps[0] }}</h2>
+          <h2 class="text-2xl font-bold mb-4 text-secondary">{{ steps[0] }}</h2>
           <!-- Donation amount selection -->
           <div class="flex flex-wrap gap-4 mb-4">
             <button 
@@ -38,7 +38,7 @@
               @click="setAmount(amount)" 
               :class="[
                 'px-6 py-3 rounded-full transition-colors duration-300',
-                donationAmount === amount ? 'bg-blu text-white' : 'bg-gray-200 text-gray-600 hover:bg-celeste hover:text-white'
+                donationAmount === amount ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-accent hover:text-white'
               ]"
             >
               €{{ amount }}
@@ -48,7 +48,7 @@
                 v-model="customAmount" 
                 type="number" 
                 placeholder="Other amount" 
-                class="w-full px-6 py-3 rounded-full border transition-colors duration-300 focus:ring-2 focus:ring-blu focus:border-transparent"
+                class="w-full px-6 py-3 rounded-full border transition-colors duration-300 focus:ring-2 focus:ring-primary focus:border-transparent"
                 @input="setAmount(Number(customAmount))"
               >
             </div>
@@ -57,7 +57,7 @@
           <div class="flex justify-end items-end mt-4">
             <button 
               @click="nextStep" 
-              class="bg-blu text-white px-8 py-3 rounded-full hover:bg-celeste transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blu"
+              class="bg-primary text-white px-8 py-3 rounded-full hover:bg-accent transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
             >
               Next
             </button>
@@ -66,7 +66,7 @@
 
         <!-- Step 2: Profile information -->
         <div v-if="currentStep === 2" class="transition-all duration-500 ease-in-out">
-          <h2 class="text-2xl font-bold mb-4">{{ steps[1] }}</h2>
+          <h2 class="text-2xl font-bold mb-4 text-secondary">{{ steps[1] }}</h2>
           <!-- Profile information form -->
           <form @submit.prevent="nextStep">
             <div class="mb-4">
@@ -76,7 +76,7 @@
                 id="email" 
                 v-model="email" 
                 required 
-                class="w-full px-4 py-3 border rounded-md transition-colors duration-300 focus:ring-2 focus:ring-blu focus:border-transparent"
+                class="w-full px-4 py-3 border rounded-md transition-colors duration-300 focus:ring-2 focus:ring-primary focus:border-transparent"
               >
             </div>
             <div class="mb-4">
@@ -85,7 +85,7 @@
                 type="text" 
                 id="name" 
                 v-model="name" 
-                class="w-full px-4 py-3 border rounded-md transition-colors duration-300 focus:ring-2 focus:ring-blu focus:border-transparent"
+                class="w-full px-4 py-3 border rounded-md transition-colors duration-300 focus:ring-2 focus:ring-primary focus:border-transparent"
               >
             </div>
             <!-- Navigation buttons -->
@@ -99,7 +99,7 @@
               </button>
               <button 
                 type="submit" 
-                class="bg-blu text-white px-8 py-3 rounded-full hover:bg-celeste transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blu"
+                class="bg-primary text-white px-8 py-3 rounded-full hover:bg-accent transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
               >
                 Next
               </button>
@@ -109,7 +109,7 @@
 
         <!-- Step 3: Payment -->
         <div v-if="currentStep === 3" class="transition-all duration-500 ease-in-out">
-          <h2 class="text-2xl font-bold mb-4">{{ steps[2] }}</h2>
+          <h2 class="text-2xl font-bold mb-4 text-secondary">{{ steps[2] }}</h2>
           <!-- PayPal Button Container -->
           <div id="paypal-button-container" class="mt-4"></div>
           <!-- Back button -->
@@ -126,10 +126,10 @@
 
       <!-- Sidebar -->
       <div class="md:w-1/3 bg-slate-100 p-8">
-        <h3 class="text-xl font-bold mb-4">Donation summary</h3>
+        <h3 class="text-xl font-bold mb-4 text-secondary">Donation summary</h3>
         <p>Amount: €{{ donationAmount }}</p>
         <hr class="my-4">
-        <h3 class="text-xl font-bold mb-4">FAQ</h3>
+        <h3 class="text-xl font-bold mb-4 text-secondary">FAQ</h3>
         <div v-for="(faq, index) in sanitizedFaqs" :key="index" class="border-b border-slate-200">
           <button 
             @click="toggleFaq(index)" 
@@ -251,21 +251,6 @@ const toggleFaq = (index) => {
   activeFaq.value = activeFaq.value === index ? null : index;
 }
 
-// Lifecycle hooks
-onMounted(() => {
-  // Accordions closed by default
-  sanitizedFaqs.value.forEach((_, index) => {
-    const content = document.getElementById(`content-${index}`);
-    if (content) {
-      content.style.maxHeight = '0';
-    }
-  });
-
-  if (currentStep.value === 3) {
-    initializePayPal()
-  }
-})
-
 // Initialize PayPal
 const initializePayPal = async () => {
   try {
@@ -292,6 +277,14 @@ const initializePayPal = async () => {
 
 // Lifecycle hooks
 onMounted(() => {
+  // Accordions closed by default
+  sanitizedFaqs.value.forEach((_, index) => {
+    const content = document.getElementById(`content-${index}`);
+    if (content) {
+      content.style.maxHeight = '0';
+    }
+  });
+
   if (currentStep.value === 3) {
     initializePayPal()
   }
@@ -312,6 +305,38 @@ watch(donationAmount, () => {
 </script>
 
 <style scoped>
+.simple-donation {
+  background-color: var(--simple-donation-background);
+}
+
+.bg-primary {
+  background-color: var(--simple-donation-primary);
+}
+
+.bg-secondary {
+  background-color: var(--simple-donation-secondary);
+}
+
+.bg-accent {
+  background-color: var(--simple-donation-accent);
+}
+
+.text-primary {
+  color: var(--simple-donation-primary);
+}
+
+.text-secondary {
+  color: var(--simple-donation-secondary);
+}
+
+.hover\:bg-accent:hover {
+  background-color: var(--simple-donation-accent);
+}
+
+.focus\:ring-primary:focus {
+  --tw-ring-color: var(--simple-donation-primary);
+}
+
 .rounded-full {
   min-width: 2.5rem;
   min-height: 2.5rem;
@@ -320,10 +345,7 @@ watch(donationAmount, () => {
 button:focus,
 input:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  box-shadow: 0 0 0 3px rgba(var(--simple-donation-accent), 0.5);
 }
 
-.border-blu {
-  border-color: #3B82F6;
-}
 </style>

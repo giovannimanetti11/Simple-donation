@@ -1,0 +1,76 @@
+
+:root {
+  --simple-donation-primary: #3B82F6;
+  --simple-donation-secondary: #1E40AF;
+  --simple-donation-accent: #60A5FA;
+  --simple-donation-background: #FFFFFF;
+}
+.simple-donation {
+    background-color: var(--simple-donation-background);
+  }
+  
+  .simple-donation__button {
+    background-color: var(--simple-donation-primary);
+    color: var(--simple-donation-secondary);
+  }
+  
+  .simple-donation__button:hover {
+    background-color: var(--simple-donation-accent);
+  }
+  
+  .simple-donation__input {
+    border-color: var(--simple-donation-primary);
+  }
+  
+  .simple-donation__input:focus {
+    border-color: var(--simple-donation-accent);
+  }
+  
+  .simple-donation__text {
+    color: var(--simple-donation-secondary);
+  }
+  
+  .simple-donation__link {
+    color: var(--simple-donation-primary);
+  }
+  
+  .simple-donation__link:hover {
+    color: var(--simple-donation-accent);
+  }
+  
+  /* Utility classes */
+  .simple-donation-bg-primary {
+    background-color: var(--simple-donation-primary);
+  }
+  
+  .simple-donation-bg-secondary {
+    background-color: var(--simple-donation-secondary);
+  }
+  
+  .simple-donation-bg-accent {
+    background-color: var(--simple-donation-accent);
+  }
+  
+  .simple-donation-text-primary {
+    color: var(--simple-donation-primary);
+  }
+  
+  .simple-donation-text-secondary {
+    color: var(--simple-donation-secondary);
+  }
+  
+  .simple-donation-text-accent {
+    color: var(--simple-donation-accent);
+  }
+  
+  .simple-donation-border-primary {
+    border-color: var(--simple-donation-primary);
+  }
+  
+  .simple-donation-border-secondary {
+    border-color: var(--simple-donation-secondary);
+  }
+  
+  .simple-donation-border-accent {
+    border-color: var(--simple-donation-accent);
+  }
