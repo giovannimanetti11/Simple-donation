@@ -150,8 +150,8 @@ Each FAQ item should be an object with question and answer properties. The compo
 
 ## Contributing
 
-Contributions are very welcome! If you have ideas for new features or improvements, please feel free to propose them. We take all suggestions seriously and consider them valuable insights that can help improve this project.
-To propose a feature, please open an issue on our GitHub repository or submit a pull request with your suggested changes. We look forward to collaborating with you and making this module even better together!
+Contributions are very welcome! If you have ideas for new features or improvements, please feel free to propose them. 
+To propose a feature, please open an issue on our GitHub repository or submit a pull request with your suggested changes.
 
 ## License
 
