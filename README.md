@@ -21,6 +21,19 @@ You can see this module in action and test it live at:
 - Responsive design using Tailwind CSS
 - Customizable basic color scheme
 
+## Development
+
+### Ongoing development
+
+    - String translations: support for multiple languages to reach a global audience.
+    - Multiple currency: support for various currencies to accommodate a wider range of donors.
+
+### Future development
+
+    - Donation recurrence: let users set up recurring donations.
+    - More payment options: including cryptocurrency integration to provide diverse payment solutions.
+    - Automatic thank you messages, including emails, to donors after each transaction.
+
 ## Installation
 
 1. Install the package:
@@ -135,14 +148,10 @@ const customFaqs = [
 
 Each FAQ item should be an object with question and answer properties. The component will automatically render these custom FAQs instead of the default ones.
 
-## Development
-
-- Run `npm run dev` to start the playground in development mode.
-- Run `npm run build` to build the playground.
-
 ## Contributing
 
-Contributions are welcome! Feel free to submit a Pull Request.
+Contributions are very welcome! If you have ideas for new features or improvements, please feel free to propose them. We take all suggestions seriously and consider them valuable insights that can help improve this project.
+To propose a feature, please open an issue on our GitHub repository or submit a pull request with your suggested changes. We look forward to collaborating with you and making this module even better together!
 
 ## License
 
