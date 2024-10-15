@@ -1,6 +1,6 @@
 {
   "name": "simple-donation",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A customizable donation module for Nuxt 3 projects",
   "main": "module.ts",
   "types": "module.ts",
@@ -27,6 +27,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/giovannimanetti11/Simple-donation.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/giovannimanetti11"
   },
   "dependencies": {
     "defu": "^6.0.0",
