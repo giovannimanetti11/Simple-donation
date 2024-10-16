@@ -44,25 +44,7 @@ npm install simple-donation
 yarn add simple-donation
 ```
 
-2. Add the module to your `nuxt.config.ts`:
-
-```typescript
-export default defineNuxtConfig({
-  modules: [
-    ['simple-donation', {
-      paypal: {
-        clientId: process.env.PAYPAL_CLIENT_ID
-      },
-      colors: {
-        primary: '#3B82F6',   // Default blue color
-        secondary: '#1E40AF', // Darker blue
-        accent: '#60A5FA',    // Lighter blue
-        background: '#FFFFFF' // White background
-      }
-    }]
-  ]
-})
-```
+2. Add the module to your `nuxt.config.ts` as described in the [Configuration](#configuration) section.
 
 3. Create a `.env` file in your project root and add your PayPal client ID:
 
