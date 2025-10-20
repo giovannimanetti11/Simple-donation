@@ -21,6 +21,19 @@ You can see this module in action and test it live at:
 - Responsive design using Tailwind CSS
 - Customizable basic color scheme
 
+## Development
+
+### Ongoing development
+
+    - String translations: support for multiple languages to reach a global audience.
+    - Multiple currency: support for various currencies to accommodate a wider range of donors.
+
+### Future development
+
+    - Donation recurrence: let users set up recurring donations.
+    - More payment options: including cryptocurrency integration to provide diverse payment solutions.
+    - Automatic thank you messages, including emails, to donors after each transaction.
+
 ## Installation
 
 1. Install the package:
@@ -31,25 +44,7 @@ npm install simple-donation
 yarn add simple-donation
 ```
 
-2. Add the module to your `nuxt.config.ts`:
-
-```typescript
-export default defineNuxtConfig({
-  modules: [
-    ['simple-donation', {
-      paypal: {
-        clientId: process.env.PAYPAL_CLIENT_ID
-      },
-      colors: {
-        primary: '#3B82F6',   // Default blue color
-        secondary: '#1E40AF', // Darker blue
-        accent: '#60A5FA',    // Lighter blue
-        background: '#FFFFFF' // White background
-      }
-    }]
-  ]
-})
-```
+2. Add the module to your `nuxt.config.ts` as described in the [Configuration](#configuration) section.
 
 3. Create a `.env` file in your project root and add your PayPal client ID:
 
@@ -135,14 +130,10 @@ const customFaqs = [
 
 Each FAQ item should be an object with question and answer properties. The component will automatically render these custom FAQs instead of the default ones.
 
-## Development
-
-- Run `npm run dev` to start the playground in development mode.
-- Run `npm run build` to build the playground.
-
 ## Contributing
 
-Contributions are welcome! Feel free to submit a Pull Request.
+Contributions are very welcome! If you have ideas for new features or improvements, please feel free to propose them. 
+To propose a feature, please open an issue on our GitHub repository or submit a pull request with your suggested changes.
 
 ## License
 
