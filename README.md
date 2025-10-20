@@ -1,4 +1,4 @@
-# Simple donation module for Nuxt 3
+# Simple donation module for Nuxt
 
 [![Last Commit](https://img.shields.io/github/last-commit/giovannimanetti11/Simple-donation)](https://github.com/giovannimanetti11/Simple-donation/commits/main)
 [![License](https://img.shields.io/github/license/giovannimanetti11/Simple-donation)](https://github.com/giovannimanetti11/Simple-donation/blob/main/LICENSE)
@@ -6,7 +6,7 @@
 [![npm version](https://img.shields.io/npm/v/simple-donation)](https://www.npmjs.com/package/simple-donation)
 [![npm downloads](https://img.shields.io/npm/dm/simple-donation)](https://www.npmjs.com/package/simple-donation)
 
-This module provides a customizable donation component for Nuxt 3 projects, integrating PayPal for one-time donations in EUR.
+This module provides a customizable donation component for Nuxt 3 and Nuxt 4 projects, integrating PayPal for one-time donations in EUR.
 
 ## Live demo
 
@@ -15,11 +15,13 @@ You can see this module in action and test it live at:
 
 ## Features
 
-- Easy integration with Nuxt 3 projects
+- Easy integration with Nuxt 3 and Nuxt 4 projects
 - PayPal integration for secure payments
 - Customizable donation amounts
 - Responsive design using Tailwind CSS
 - Customizable basic color scheme
+- TypeScript support
+- Secure with DOMPurify sanitization
 
 ## Development
 
@@ -33,6 +35,11 @@ You can see this module in action and test it live at:
     - Donation recurrence: let users set up recurring donations.
     - More payment options: including cryptocurrency integration to provide diverse payment solutions.
     - Automatic thank you messages, including emails, to donors after each transaction.
+
+## Requirements
+
+- Nuxt 3.x or Nuxt 4.x
+- Node.js 18.x or higher
 
 ## Installation
 
