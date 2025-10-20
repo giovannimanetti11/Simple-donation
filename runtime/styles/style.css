@@ -1,9 +1,9 @@
 
 :root {
-  --simple-donation-primary: #3B82F6;
-  --simple-donation-secondary: #1E40AF;
-  --simple-donation-accent: #60A5FA;
-  --simple-donation-background: #FFFFFF;
+  --simple-donation-primary: #036297;
+  --simple-donation-secondary: #5E9EF4;
+  --simple-donation-accent: #0DA6A4;
+  --simple-donation-background: #f5f5f5;
 }
 .simple-donation {
     background-color: var(--simple-donation-background);
