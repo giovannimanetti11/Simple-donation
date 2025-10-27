@@ -1,7 +1,6 @@
 import { defineNuxtModule, addComponent, createResolver } from '@nuxt/kit'
 import { defu } from 'defu'
 import fs from 'fs'
-import path from 'path'
 
 export interface ModuleOptions {
   paypal: {

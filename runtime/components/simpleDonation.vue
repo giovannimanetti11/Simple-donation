@@ -151,7 +151,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch, computed, onMounted } from 'vue'
+import { ref, watch, computed, onMounted } from 'vue'
 import { usePaypal } from '../composables/usePaypal'
 import DOMPurify from 'dompurify'
 
