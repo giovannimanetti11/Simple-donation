@@ -1,6 +1,5 @@
 import { defineNuxtModule, addComponent, createResolver } from '@nuxt/kit'
 import { defu } from 'defu'
-import fs from 'fs'
 
 export interface ModuleOptions {
   paypal: {
@@ -19,7 +18,7 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'simple-donation',
     configKey: 'simpleDonation',
     compatibility: {
-      nuxt: '^3.0.0'
+      nuxt: '^3.0.0 || ^4.0.0'
     }
   },
   defaults: {
@@ -48,47 +47,18 @@ export default defineNuxtModule<ModuleOptions>({
       filePath: resolve('./runtime/components/simpleDonation.vue')
     })
 
-    // Add Tailwind configuration
+    // Add Tailwind configuration if @nuxtjs/tailwindcss is installed
     nuxt.hook('tailwindcss:config', (tailwindConfig) => {
-      tailwindConfig.theme.extend.colors = {
-        ...tailwindConfig.theme.extend.colors,
-        simpleDonation: moduleOptions.colors
+      if (tailwindConfig.theme && tailwindConfig.theme.extend) {
+        tailwindConfig.theme.extend.colors = {
+          ...tailwindConfig.theme.extend.colors,
+          simpleDonation: moduleOptions.colors
+        }
       }
     })
 
-    // Generate CSS variables
-    const cssVariables = `
-:root {
-  --simple-donation-primary: ${moduleOptions.colors.primary};
-  --simple-donation-secondary: ${moduleOptions.colors.secondary};
-  --simple-donation-accent: ${moduleOptions.colors.accent};
-  --simple-donation-background: ${moduleOptions.colors.background};
-}
-`
-
-    // Path to the CSS file
+    // Add the CSS file to Nuxt
     const cssFilePath = resolve('./runtime/styles/style.css')
-
-    // Read existing CSS file
-    let existingCSS = ''
-    if (fs.existsSync(cssFilePath)) {
-      existingCSS = fs.readFileSync(cssFilePath, 'utf-8')
-    }
-
-    // Replace or append CSS variables
-    const cssVariablesRegex = /:root\s*{[\s\S]*?}/
-    if (cssVariablesRegex.test(existingCSS)) {
-      existingCSS = existingCSS.replace(cssVariablesRegex, cssVariables.trim())
-    } else {
-      existingCSS = cssVariables + existingCSS
-    }
-
-    // Write updated CSS back to file
-    fs.writeFileSync(cssFilePath, existingCSS)
-
-    // Add the styles to Nuxt
     nuxt.options.css.push(cssFilePath)
-
-    console.log('SimpleDonation module: CSS variables updated successfully.')
   }
 })
