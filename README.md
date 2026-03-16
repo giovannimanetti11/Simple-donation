@@ -6,35 +6,23 @@
 [![npm version](https://img.shields.io/npm/v/simple-donation)](https://www.npmjs.com/package/simple-donation)
 [![npm downloads](https://img.shields.io/npm/dm/simple-donation)](https://www.npmjs.com/package/simple-donation)
 
-This module provides a customizable donation component for Nuxt 3 and Nuxt 4 projects, integrating PayPal for one-time donations in EUR.
+A customizable donation component for Nuxt 3 and Nuxt 4 projects, with PayPal integration for one-time donations in EUR.
 
 ## Live demo
 
-You can see this module in action and test it live at:
-[https://wikiherbalist.com/donazioni](https://wikiherbalist.com/donazioni)
+You can see it in action at [https://wikiherbalist.com/donazioni](https://wikiherbalist.com/donazioni).
 
 ## Features
 
-- Easy integration with Nuxt 3 and Nuxt 4 projects
+- Compatible with Nuxt 3 and Nuxt 4
 - PayPal integration for secure payments
 - Customizable donation amounts
-- Responsive design using Tailwind CSS
-- Customizable basic color scheme
-- TypeScript support
-- Secure with DOMPurify sanitization
-
-## Development
-
-### Ongoing development
-
-    - String translations: support for multiple languages to reach a global audience.
-    - Multiple currency: support for various currencies to accommodate a wider range of donors.
-
-### Future development
-
-    - Donation recurrence: let users set up recurring donations.
-    - More payment options: including cryptocurrency integration to provide diverse payment solutions.
-    - Automatic thank you messages, including emails, to donors after each transaction.
+- Multilingual support: EN, IT, ES, FR, DE
+- Responsive design with Tailwind CSS
+- Configurable color scheme via CSS variables
+- Custom FAQ sidebar
+- XSS protection via DOMPurify sanitization
+- Full TypeScript support
 
 ## Requirements
 
@@ -61,12 +49,12 @@ PAYPAL_CLIENT_ID=your_paypal_client_id_here
 
 ## Usage
 
-After installation and configuration, you can use the `SimpleDonation` component in your Nuxt pages or components:
+Once installed and configured, add the component to any page or component:
 
 ```vue
 <template>
   <div>
-    <h1>Support Our Project</h1>
+    <h1>Support our project</h1>
     <SimpleDonation />
   </div>
 </template>
@@ -74,7 +62,7 @@ After installation and configuration, you can use the `SimpleDonation` component
 
 ## Configuration
 
-The module is configured directly in your `nuxt.config.ts`. You can customize the PayPal client ID and the color scheme:
+Configure the module in `nuxt.config.ts`:
 
 ```typescript
 export default defineNuxtConfig({
@@ -84,10 +72,10 @@ export default defineNuxtConfig({
         clientId: process.env.PAYPAL_CLIENT_ID
       },
       colors: {
-        primary: '#3B82F6',   // Custom primary color
-        secondary: '#1E40AF', // Custom secondary color
-        accent: '#60A5FA',    // Custom accent color
-        background: '#FFFFFF' // Custom background color
+        primary: '#3B82F6',   // main buttons and highlights
+        secondary: '#1E40AF', // secondary elements
+        accent: '#60A5FA',    // accents and focus states
+        background: '#FFFFFF' // component background
       }
     }]
   ]
@@ -96,51 +84,66 @@ export default defineNuxtConfig({
 
 ## Customization
 
-### Color customization
+### Language
 
-You can customize the color scheme of the donation component by modifying the `colors` object in the module configuration. The available color options are:
+Use the `lang` prop to set the component language. Supported values: `en`, `it`, `es`, `fr`, `de`. Defaults to `en`.
 
-- `primary`: the main color used for buttons and highlights
+```vue
+<SimpleDonation lang="it" />
+```
+
+All UI labels, step names, button text, and default FAQ content will be displayed in the chosen language.
+
+### Color scheme
+
+The four color options available are:
+
+- `primary`: main color for buttons and highlights
 - `secondary`: used for secondary elements and hover states
 - `accent`: used for accents and focus states
-- `background`: the background color of the donation component
+- `background`: background color of the component
 
-### FAQ customization
+### Custom FAQs
 
-You can customize the FAQs displayed in the donation component's sidebar by passing a faqs prop to the SimpleDonation component. Here's an example of how to do this in a Vue component:
+Pass a `faqs` prop to override the default FAQ items shown in the sidebar:
 
 ```vue
 <template>
   <div>
-    <h1>Support Our Project</h1>
-    <SimpleDonation :faqs="customFaqs" />
+    <SimpleDonation lang="it" :faqs="customFaqs" />
   </div>
 </template>
 
 <script setup>
 const customFaqs = [
   {
-    question: 'How are donations used?',
-    answer: 'Donations are used to support the development and maintenance of our project.'
+    question: 'Come vengono utilizzate le donazioni?',
+    answer: 'Le donazioni supportano lo sviluppo e la manutenzione del progetto.'
   },
   {
-    question: 'Is this system secure?',
-    answer: 'Yes, all transactions use systems with high levels of security.',
+    question: 'Il sistema è sicuro?',
+    answer: 'Sì, tutte le transazioni utilizzano sistemi con elevati livelli di sicurezza.'
   },
   {
-    question: 'Can I make a recurring donation?',
-    answer: 'Currently, we only support one-time donations, but we are working on implementing recurring donations in the future.',
+    question: 'Posso fare una donazione ricorrente?',
+    answer: 'Al momento supportiamo solo donazioni una tantum.'
   }
 ]
 </script>
 ```
 
-Each FAQ item should be an object with question and answer properties. The component will automatically render these custom FAQs instead of the default ones.
+Each FAQ item needs a `question` and an `answer` property. HTML is allowed and automatically sanitized.
+
+## Roadmap
+
+- Multiple currencies: support for currencies other than EUR.
+- Recurring donations: let donors set up a monthly contribution.
+- More payment options: including cryptocurrency.
+- Automatic thank-you emails to donors after each transaction.
 
 ## Contributing
 
-Contributions are very welcome! If you have ideas for new features or improvements, please feel free to propose them. 
-To propose a feature, please open an issue on our GitHub repository or submit a pull request with your suggested changes.
+Contributions are welcome. Feel free to open an issue or submit a pull request on [GitHub](https://github.com/giovannimanetti11/Simple-donation).
 
 ## License
 

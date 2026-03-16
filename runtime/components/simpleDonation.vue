@@ -48,7 +48,7 @@
                 v-model="customAmount" 
                 type="number" 
                 min="1"
-                placeholder="Other amount" 
+                :placeholder="t.otherAmount" 
                 class="w-full px-4 sm:px-6 py-2 sm:py-3 rounded-full border transition-colors duration-300 focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base"
                 @input="setAmount(Number(customAmount))"
               >
@@ -60,7 +60,7 @@
               @click="nextStep" 
               class="bg-primary text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full hover:bg-accent transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary text-sm sm:text-base"
             >
-              Next
+              {{ t.next }}
             </button>
           </div>
         </div>
@@ -71,7 +71,7 @@
           <!-- Profile information form -->
           <form @submit.prevent="validateAndProceed" ref="profileForm">
             <div class="mb-4">
-              <label for="email" class="block text-gray-700 mb-2 text-sm sm:text-base">Email</label>
+              <label for="email" class="block text-gray-700 mb-2 text-sm sm:text-base">{{ t.email }}</label>
               <input 
                 type="email" 
                 id="email" 
@@ -81,7 +81,7 @@
               >
             </div>
             <div class="mb-4">
-              <label for="name" class="block text-gray-700 mb-2 text-sm sm:text-base">Name (optional)</label>
+              <label for="name" class="block text-gray-700 mb-2 text-sm sm:text-base">{{ t.name }}</label>
               <input 
                 type="text" 
                 id="name" 
@@ -96,13 +96,13 @@
                 type="button" 
                 class="bg-gray-200 text-gray-600 px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:bg-accent hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-sm sm:text-base"
               >
-                Back
+                {{ t.back }}
               </button>
               <button 
                 type="submit" 
                 class="bg-primary text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full hover:bg-accent transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary text-sm sm:text-base"
               >
-                Next
+                {{ t.next }}
               </button>
             </div>
           </form>
@@ -119,7 +119,7 @@
               @click="prevStep" 
               class="bg-gray-200 text-gray-600 px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:bg-accent hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 text-sm sm:text-base"
             >
-              Back
+              {{ t.back }}
             </button>
           </div>
         </div>
@@ -127,10 +127,10 @@
 
       <!-- Sidebar -->
       <div class="md:w-1/3 bg-slate-100 p-4 sm:p-6 md:p-8">
-        <h3 class="text-lg sm:text-xl font-bold mb-4 text-black">Donation summary</h3>
-        <p class="text-sm sm:text-base">Amount: €{{ donationAmount }}</p>
+        <h3 class="text-lg sm:text-xl font-bold mb-4 text-black">{{ t.donationSummary }}</h3>
+        <p class="text-sm sm:text-base">{{ t.amount }}: €{{ donationAmount }}</p>
         <hr class="my-4">
-        <h3 class="text-lg sm:text-xl font-bold mb-4 text-black">FAQ</h3>
+        <h3 class="text-lg sm:text-xl font-bold mb-4 text-black">{{ t.faq }}</h3>
         <div v-for="(faq, index) in sanitizedFaqs" :key="index" class="border-b border-slate-200">
           <button 
             @click="toggleFaq(index)" 
@@ -154,32 +154,37 @@
 import { ref, watch, computed, onMounted } from 'vue'
 import { usePaypal } from '../composables/usePaypal'
 import DOMPurify from 'dompurify'
+import translations from '../../translations'
 
 // Props definition
 const props = defineProps({
+  lang: {
+    type: String,
+    default: 'en',
+    validator: (val) => ['en', 'it', 'es', 'fr', 'de'].includes(val)
+  },
   faqs: {
     type: Array,
-    default: () => ([
-      {
-        question: 'How are donations used?',
-        answer: 'Donations are used to support the development and maintenance of our project.'
-      },
-      {
-        question: 'Is this system secure?',
-        answer: 'Yes, all transactions use systems with high levels of security.',
-      },
-      {
-        question: 'Can I make a recurring donation?',
-        answer: 'Currently, we only support one-time donations, but we are working on implementing recurring donations in the future.',
-      }
-    ])
+    default: null
   }
 })
 
+// Translations
+const t = computed(() => translations[props.lang] || translations.en)
+
+// Default FAQs from locale
+const defaultFaqs = computed(() => [
+  { question: t.value.faqQuestion1, answer: t.value.faqAnswer1 },
+  { question: t.value.faqQuestion2, answer: t.value.faqAnswer2 },
+  { question: t.value.faqQuestion3, answer: t.value.faqAnswer3 }
+])
+
+// Step labels from locale
+const steps = computed(() => [t.value.details, t.value.profile, t.value.payment])
+
 // Reactive state
-const steps = ['Details', 'Profile', 'Payment']
 const currentStep = ref(1)
-const donationAmount = ref(20) // Default donation amount set to 20 EUR
+const donationAmount = ref(20)
 const customAmount = ref('')
 const email = ref('')
 const name = ref('')
@@ -191,7 +196,8 @@ const { initPaypal, renderPayPalButtons } = usePaypal()
 
 // Computed properties
 const sanitizedFaqs = computed(() => {
-  return props.faqs.map(faq => ({
+  const source = props.faqs || defaultFaqs.value
+  return source.map(faq => ({
     question: DOMPurify.sanitize(faq.question),
     answer: DOMPurify.sanitize(faq.answer)
   }))
@@ -207,12 +213,12 @@ const validateAndProceed = () => {
 }
 
 const setAmount = (amount) => {
-  donationAmount.value = Math.max(1, amount) // Ensure minimum donation of 1 EUR
+  donationAmount.value = Math.max(1, amount)
   customAmount.value = donationAmount.value
 }
 
 const nextStep = () => {
-  if (currentStep.value < steps.length) {
+  if (currentStep.value < steps.value.length) {
     currentStep.value++
   }
 }
@@ -224,7 +230,7 @@ const prevStep = () => {
 }
 
 const goToStep = (step) => {
-  if (step >= 1 && step <= steps.length) {
+  if (step >= 1 && step <= steps.value.length) {
     if (step === 3 && currentStep.value < 3) {
       validateAndProceed()
     } else {
@@ -243,21 +249,17 @@ const initializePayPal = async () => {
     await initPaypal()
     renderPayPalButtons(donationAmount.value, 
       (details) => {
-        console.log('Donation successful:', details)
-        alert('Thank you for your donation!')
+        console.log(t.value.transactionCompleted, details)
+        alert(t.value.donationSuccessful)
       }, 
       (error) => {
-        console.error('Error during donation:', error)
-        let errorMessage = 'An error occurred during the donation process. '
-        if (error.message) {
-          errorMessage += `Details: ${error.message}`
-        }
-        alert(errorMessage + ' Please try again or contact support.')
+        console.error(t.value.paypalError, error)
+        alert(error.message || t.value.paypalError)
       }
     )
   } catch (error) {
-    console.error('Error initializing PayPal:', error)
-    alert('An error occurred while initializing PayPal. Please reload the page and try again.')
+    console.error(t.value.paypalError, error)
+    alert(t.value.paypalError)
   }
 }
 
