@@ -47,7 +47,8 @@
               <input
                 v-model="customAmount"
                 type="number"
-                :min="minAmount"\n                step="0.01"
+                :min="minAmount"
+                step="0.01"
                 :placeholder="t.otherAmount"
                 class="w-full px-4 sm:px-6 py-2 sm:py-3 rounded-full border transition-colors duration-300 focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base"
                 @input="setAmount(Number(customAmount))"
