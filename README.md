@@ -6,7 +6,7 @@
 [![npm version](https://img.shields.io/npm/v/simple-donation)](https://www.npmjs.com/package/simple-donation)
 [![npm downloads](https://img.shields.io/npm/dm/simple-donation)](https://www.npmjs.com/package/simple-donation)
 
-A customizable donation component for Nuxt 3 and Nuxt 4 projects, with PayPal integration for one-time donations in EUR.
+A customizable donation component for Nuxt 3 and Nuxt 4 projects, with PayPal integration for configurable one-time donations.
 
 ## Live demo
 
@@ -27,7 +27,7 @@ You can see it in action at [https://wikiherbalist.com/donazioni](https://wikihe
 ## Requirements
 
 - Nuxt 3.x or Nuxt 4.x
-- Node.js 18.x or higher
+- Node.js 20.19.5 or higher
 
 ## Installation
 
@@ -133,6 +133,29 @@ const customFaqs = [
 ```
 
 Each FAQ item needs a `question` and an `answer` property. HTML is allowed and automatically sanitized.
+
+## New in 1.4
+
+- Nuxt 3 and Nuxt 4 package-level compatibility tests
+- Configurable `currency`, `amounts` and `defaultAmount`
+- `success`, `error` and `cancel` events
+- Optional built-in alerts with `:show-alerts="false"`
+- SSR-safe FAQ sanitization
+- Fixed runtime color configuration
+- Safe support for multiple component instances on one page
+
+Example:
+
+```vue
+<SimpleDonation
+  lang="it"
+  currency="EUR"
+  :amounts="[5, 15, 30, 50]"
+  :default-amount="15"
+  :show-alerts="false"
+  @success="handleDonation"
+/>
+```
 
 ## Roadmap
 

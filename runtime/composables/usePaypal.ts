@@ -1,119 +1,136 @@
 import { ref } from 'vue'
 import { useRuntimeConfig } from '#app'
 
+declare global {
+  interface Window {
+    paypal?: any
+  }
+}
+
+let paypalSdkPromise: Promise<void> | null = null
+let paypalSdkUrl: string | null = null
+
 export function usePaypal() {
   const config = useRuntimeConfig()
   const isPaypalLoaded = ref(false)
 
-  // Function to load the PayPal SDK script
-  const loadPaypalScript = () => {
-    return new Promise<void>((resolve, reject) => {
-      // Check if PayPal is already loaded
-      if (window.paypal) {
-        isPaypalLoaded.value = true
-        resolve()
-        return
-      }
+  const loadPaypalScript = (currency = 'EUR') => {
+    if (typeof window === 'undefined') {
+      return Promise.reject(new Error('PayPal SDK can only be loaded in the browser'))
+    }
 
-      // Create and append the PayPal script
+    const clientId = String(config.public.simpleDonation?.paypal?.clientId || '').trim()
+    if (!clientId) {
+      return Promise.reject(new Error('Missing PayPal client ID'))
+    }
+
+    const normalizedCurrency = String(currency || 'EUR').toUpperCase()
+    const url = `https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(clientId)}&currency=${encodeURIComponent(normalizedCurrency)}`
+
+    if (window.paypal) {
+      if (paypalSdkUrl && paypalSdkUrl !== url) {
+        return Promise.reject(new Error('PayPal SDK is already loaded with a different client ID or currency'))
+      }
+      isPaypalLoaded.value = true
+      paypalSdkUrl = paypalSdkUrl || url
+      return Promise.resolve()
+    }
+
+    if (paypalSdkPromise) {
+      if (paypalSdkUrl !== url) {
+        return Promise.reject(new Error('PayPal SDK is already loading with a different client ID or currency'))
+      }
+      return paypalSdkPromise
+    }
+
+    paypalSdkUrl = url
+    paypalSdkPromise = new Promise<void>((resolve, reject) => {
       const script = document.createElement('script')
-      script.src = `https://www.paypal.com/sdk/js?client-id=${config.public.simpleDonation.paypal.clientId}&currency=EUR`
+      script.src = url
       script.async = true
+      script.dataset.simpleDonationSdk = 'true'
       script.onload = () => {
         if (window.paypal) {
           isPaypalLoaded.value = true
-          console.log('PayPal SDK loaded successfully')
           resolve()
         } else {
-          reject(new Error('PayPal SDK loaded but not available'))
+          paypalSdkPromise = null
+          reject(new Error('PayPal SDK loaded but is not available'))
         }
       }
-      script.onerror = (error) => {
-        console.error('Failed to load PayPal SDK', error)
+      script.onerror = () => {
+        paypalSdkPromise = null
+        paypalSdkUrl = null
         reject(new Error('Failed to load PayPal SDK'))
       }
-      document.body.appendChild(script)
+      document.head.appendChild(script)
     })
+
+    return paypalSdkPromise
   }
 
-  // Function to initialize PayPal
-  const initPaypal = async () => {
-    if (!isPaypalLoaded.value) {
-      try {
-        await loadPaypalScript()
-      } catch (error) {
-        console.error('Error initializing PayPal SDK:', error)
-        throw error
-      }
-    }
+  const initPaypal = async (currency = 'EUR') => {
+    await loadPaypalScript(currency)
+    isPaypalLoaded.value = true
   }
 
-  // Function to render PayPal buttons
-  const renderPayPalButtons = (amount: number, onSuccess: Function, onError: Function) => {
+  const renderPayPalButtons = (
+    container: HTMLElement,
+    amount: number,
+    currency: string,
+    onSuccess: (details: any) => void,
+    onError: (error: Error) => void,
+    onCancel?: (data: any) => void
+  ) => {
     if (typeof window === 'undefined' || !window.paypal) {
-      console.error('PayPal SDK not loaded')
       onError(new Error('PayPal SDK not loaded'))
       return
     }
 
-    try {
-      const container = document.getElementById('paypal-button-container')
-      if (container) {
-        container.innerHTML = ''
-      } else {
-        throw new Error('PayPal button container not found')
-      }
+    if (!Number.isFinite(amount) || amount <= 0) {
+      onError(new Error('Donation amount must be a positive number'))
+      return
+    }
 
+    container.innerHTML = ''
+
+    try {
       window.paypal.Buttons({
         style: {
           layout: 'vertical',
           color: 'gold',
           shape: 'rect',
-          label: 'paypal',
+          label: 'paypal'
         },
-        createOrder: (data: any, actions: any) => {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: amount.toFixed(2),
-                currency_code: 'EUR'
-              }
-            }]
-          })
-        },
-        onApprove: async (data: any, actions: any) => {
-          console.log('Payment approved. Capturing order...')
+        createOrder: (_data: any, actions: any) => actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: amount.toFixed(2),
+              currency_code: currency.toUpperCase()
+            }
+          }]
+        }),
+        onApprove: async (_data: any, actions: any) => {
           try {
             const details = await actions.order.capture()
-            console.log('Transaction completed:', details)
             onSuccess(details)
           } catch (error: any) {
-            console.error('Error capturing order:', error)
-            if (error.details && error.details[0].issue === 'TRANSACTION_REFUSED') {
-              console.error('Transaction refused. Please check your sandbox account configuration.')
-              onError(new Error('Transaction refused. Please check your sandbox account configuration.'))
-            } else {
-              onError(error)
-            }
+            onError(error instanceof Error ? error : new Error(String(error)))
           }
         },
-        onError: (err: any) => {
-          console.error('PayPal error:', err)
-          if (err.message.includes('TRANSACTION_REFUSED')) {
-            onError(new Error('Transaction refused. Please check your sandbox account configuration.'))
-          } else {
-            onError(err)
-          }
+        onCancel: (data: any) => onCancel?.(data),
+        onError: (error: any) => {
+          onError(error instanceof Error ? error : new Error(String(error)))
         }
-      }).render('#paypal-button-container')
-    } catch (error) {
-      console.error('Error rendering PayPal buttons:', error)
-      onError(error)
+      }).render(container)
+    } catch (error: any) {
+      onError(error instanceof Error ? error : new Error(String(error)))
     }
   }
 
   return {
     initPaypal,
-    renderPayPalButtons
+    renderPayPalButtons,
+    isPaypalLoaded
   }
 }
