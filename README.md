@@ -159,14 +159,7 @@ Example:
 
 ## Roadmap
 
-- Multiple currencies: support for currencies other than EUR.
-- Recurring donations: let donors set up a monthly contribution.
-- More payment options: including cryptocurrency.
-- Automatic thank-you emails to donors after each transaction.
-
-## Roadmap
-
-See [ROADMAP.md](ROADMAP.md) for planned improvements, including recurring donations, server-side PayPal verification, headless/compact modes, accessibility work and CI coverage.
+See [ROADMAP.md](ROADMAP.md) for planned improvements, including recurring donations, server-side PayPal verification, headless/compact modes and accessibility work. Continuous integration is now active on GitHub Actions.
 
 ## Contributing
 
