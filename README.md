@@ -30,11 +30,18 @@ You can see it in action at [https://wikiherbalist.com/donazioni](https://wikihe
 - Node.js 22.22.3+ or 24.15.0+ (or 26+)
 - Tailwind CSS in the host project (the component is styled with Tailwind utility classes)
 
-Tailwind must scan the package files, otherwise the component classes are not generated. With Tailwind CSS 4, add a `@source` directive to your main CSS file (the path is relative to that file):
+Tailwind must scan the package files, otherwise the component classes are not generated. With Tailwind CSS 4, add a `@source` directive to your main CSS file. The path is relative to the CSS file and must point to the `node_modules` folder in the project root:
 
 ```css
+/* app/assets/css/main.css (Nuxt 4 default layout) */
 @import "tailwindcss";
-@source "../node_modules/simple-donation/runtime";
+@source "../../../node_modules/simple-donation/runtime";
+```
+
+```css
+/* assets/css/main.css (Nuxt 3, or Nuxt 4 without the app/ directory) */
+@import "tailwindcss";
+@source "../../node_modules/simple-donation/runtime";
 ```
 
 With Tailwind CSS 3, add the package to `content` in `tailwind.config`:

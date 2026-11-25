@@ -8,6 +8,7 @@
 - Update dev tooling: TypeScript 6.0.3, ESLint 10.15.0, `eslint-plugin-vue` 10.12.1, `@typescript-eslint/parser` 8.74.0, Tailwind CSS 4.3.5.
 - Regenerate the lockfile so it installs on Windows, macOS and Linux.
 - Fix the step label hover color: `hover:text-primary` was used but never defined.
+- `test:package` now fails when a required runtime file is missing from the npm tarball, instead of only listing the packed files.
 - Enable Tailwind CSS 4 in the playground (`@tailwindcss/vite`), so the build also generates the component utility classes.
 - README: document the Tailwind CSS requirement and setup, the `currency`, `amounts` and `defaultAmount` module options, and what CI actually checks.
 
