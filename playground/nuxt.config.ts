@@ -1,3 +1,5 @@
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   modules: [
     ['../module', {
@@ -6,5 +8,9 @@ export default defineNuxtConfig({
       amounts: [5, 10, 20, 50],
       defaultAmount: 20
     }]
-  ]
+  ],
+  css: ['~/assets/css/main.css'],
+  vite: {
+    plugins: [tailwindcss()]
+  }
 })

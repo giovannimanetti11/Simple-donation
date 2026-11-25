@@ -27,7 +27,21 @@ You can see it in action at [https://wikiherbalist.com/donazioni](https://wikihe
 ## Requirements
 
 - Nuxt 3.x or Nuxt 4.x
-- Node.js 20.19.5 or higher
+- Node.js 22.22.3+ or 24.15.0+ (or 26+)
+- Tailwind CSS in the host project (the component is styled with Tailwind utility classes)
+
+Tailwind must scan the package files, otherwise the component classes are not generated. With Tailwind CSS 4, add a `@source` directive to your main CSS file (the path is relative to that file):
+
+```css
+@import "tailwindcss";
+@source "../node_modules/simple-donation/runtime";
+```
+
+With Tailwind CSS 3, add the package to `content` in `tailwind.config`:
+
+```js
+content: ['./node_modules/simple-donation/runtime/**/*.vue']
+```
 
 ## Installation
 
@@ -71,6 +85,9 @@ export default defineNuxtConfig({
       paypal: {
         clientId: process.env.PAYPAL_CLIENT_ID
       },
+      currency: 'EUR',            // ISO 4217 currency code
+      amounts: [5, 10, 20, 50],   // suggested amounts
+      defaultAmount: 20,          // preselected amount
       colors: {
         primary: '#3B82F6',   // main buttons and highlights
         secondary: '#1E40AF', // secondary elements
@@ -134,9 +151,13 @@ const customFaqs = [
 
 Each FAQ item needs a `question` and an `answer` property. HTML is allowed and automatically sanitized.
 
+### Per-component overrides
+
+`currency`, `amounts` and `defaultAmount` can also be passed as props. Props take precedence over the module configuration.
+
 ## New in 1.4
 
-- Nuxt 3 and Nuxt 4 package-level compatibility tests
+- CI checks: lint, npm package contents and a Nuxt 4 playground build
 - Configurable `currency`, `amounts` and `defaultAmount`
 - `success`, `error` and `cancel` events
 - Optional built-in alerts with `:show-alerts="false"`

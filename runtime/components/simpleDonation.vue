@@ -352,6 +352,10 @@ watch(currencyCode, () => {
   background-color: var(--simple-donation-accent);
 }
 
+.hover\:text-primary:hover {
+  color: var(--simple-donation-primary);
+}
+
 .focus\:ring-primary:focus {
   --tw-ring-color: var(--simple-donation-primary);
 }
