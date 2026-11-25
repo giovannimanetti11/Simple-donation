@@ -1,0 +1,4 @@
+@import "tailwindcss";
+
+/* The component lives outside the playground: scan it explicitly. */
+@source "../../../runtime";
